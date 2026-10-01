@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Power Gym | High Performance</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Oxygen:wght@300;400;700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        /* =========================================
+           DESIGN SYSTEM (Industrial Performance)
+           ========================================= */
+        :root {
+            --bg: #11181e;
+            --surface: #1a222a;
+            --primary: #ffffff;
+            --accent: #fc472d;
+            --text: #ffffff;
+            --muted: #aeb0b1;
+            --border: #2a3540;
+            --transition: all 0.6s cubic-bezier(0.2, 1, 0.3, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Oxygen', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                linear-gradient(var(--border) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 100px 100px;
+            background-position: center;
+            background-attachment: fixed;
+            background-blend-mode: multiply;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            opacity: 0.05;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        a:focus-visible {
+            outline: 3px solid var(--accent);
+            outline-offset: 4px;
+        }
+
+        .skip-link {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            z-index: 1101;
+            padding: 12px 16px;
+            background: var(--primary);
+            color: var(--bg);
+            transform: translateY(-150%);
+        }
+
+        .skip-link:focus-visible { transform: translateY(0); }
+        main, section[id] { scroll-margin-top: 120px; }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 40px;
+            position: relative;
+        }
+
+        .tech-label {
+            font-family: 'Oswald', sans-serif;
+            font-size: 10px;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .watermark {
+            position: absolute;
+            font-family: 'Black Ops One', system-ui;
+            font-size: 15vw;
+            color: rgba(255, 255, 255, 0.02);
+            z-index: -1;
+            pointer-events: none;
+            white-space: nowrap;
+            text-transform: uppercase;
+            max-width: 100%;
+            overflow: hidden;
+        }
+
+        .google-verify {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 16px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            margin-bottom: 24px;
+            transition: var(--transition);
+        }
+        .google-verify:hover { border-color: var(--accent); background: rgba(252, 71, 45, 0.05); }
+        .google-verify .google-icon { color: #4285F4; font-size: 14px; }
+        .google-verify .rating { font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 700; }
+        .google-verify .stars { color: #FBBC05; font-size: 12px; }
+        .google-verify .reviews { font-size: 11px; color: var(--muted); border-left: 1px solid var(--border); padding-left: 12px; margin-left: 4px; }
+
+        h1, h2, h3 {
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+            line-height: 1;
+        }
+
+        header {
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            background: rgba(17, 24, 30, 0.85);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        nav { display: flex; justify-content: space-between; align-items: center; }
+
+        .logo-img { height: 45px; width: auto; transition: var(--transition); }
+        .logo-img:hover { transform: scale(1.05); filter: brightness(1.2); }
+
+        .nav-links { display: flex; list-style: none; gap: 30px; }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text);
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            transition: var(--transition);
+            opacity: 0.8;
+            position: relative;
+            padding: 5px 0;
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
+        }
+        .nav-links a:hover { opacity: 1; color: var(--accent); }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: var(--transition);
+        }
+        .nav-links a:hover::after { width: 100%; }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--bg);
+            padding: 18px 35px;
+            text-decoration: none;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 13px;
+            transition: var(--transition);
+            display: inline-block;
+            min-height: 44px;
+            text-align: center;
+        }
+        .btn-primary:hover { background: var(--accent); color: var(--primary); transform: translateY(-3px); }
+
+        /* HERO SECTION */
+        .hero {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            align-items: center;
+            gap: 60px;
+            padding-top: 120px;
+        }
+
+        .hero-text h1 {
+            font-size: 90px;
+            margin-bottom: 24px;
+            letter-spacing: -3px;
+        }
+
+        .hero-text p {
+            font-size: 18px;
+            color: var(--muted);
+            max-width: 480px;
+            margin-bottom: 48px;
+            font-weight: 300;
+        }
+
+        .hero-image-wrapper {
+            position: relative;
+            height: 80vh;
+            width: 100%;
+            border: 1px solid var(--border);
+            padding: 10px;
+        }
+
+        .hero-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%) contrast(1.2);
+            transition: var(--transition);
+            mask-image: linear-gradient(to right, transparent, black 20%);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 20%);
+        }
+
+        .hero-image-wrapper:hover img { filter: grayscale(0%); }
+
+        /* PROGRAMAS */
+        .programs {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .section-header {
+            margin-bottom: 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .section-header h2 {
+            font-size: 55px;
+            max-width: 450px;
+        }
+
+        .programs-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+        }
+
+        .programs-grid > .prog-item:last-child:nth-child(3) { grid-column: 4 / span 6; }
+
+        .prog-item {
+            position: relative;
+            overflow: hidden;
+            background: var(--surface);
+            transition: var(--transition);
+            border: 1px solid var(--border);
+        }
+
+        .prog-item.large { grid-column: span 7; height: 550px; }
+        .prog-item.small { grid-column: span 5; height: 550px; }
+        .prog-item.medium { grid-column: span 6; height: 450px; }
+
+        .prog-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.4;
+            transition: var(--transition);
+            filter: grayscale(100%);
+        }
+
+        .prog-content {
+            position: absolute;
+            bottom: 40px;
+            left: 40px;
+            right: 40px;
+        }
+
+        .prog-item:hover img { opacity: 0.7; filter: grayscale(0%); transform: scale(1.05); }
+
+        /* LOCALIZAÇÃO */
+        .location-section {
+            padding: 100px 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 80px;
+        }
+        .location-text h2 {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+        .location-text p {
+            color: var(--muted);
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+        .map-wrapper {
+            position: relative;
+            height: 450px;
+            border: 1px solid var(--border);
+            padding: 15px;
+            box-shadow: -10px -10px 0px var(--border);
+        }
+        .map-wrapper iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* HORÁRIOS */
+        .schedule {
+            padding: 100px 0;
+        }
+
+        .schedule-container {
+            max-width: 900px;
+            margin: 60px auto 0;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .schedule-container::before {
+            content: 'CONTROL_PANEL_V1.0';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: var(--accent);
+            color: #000;
+            font-family: 'Oswald';
+            font-size: 10px;
+            padding: 2px 8px;
+            font-weight: 700;
+        }
+
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .schedule-table th {
+            text-align: left;
+            padding: 20px;
+            font-family: 'Oswald', sans-serif;
+            background: #222d38;
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 14px;
+            border-bottom: 3px solid var(--accent);
+            letter-spacing: 1px;
+        }
+
+        .schedule-table td {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text);
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        .schedule-table tr:hover td {
+            background: rgba(252, 71, 45, 0.05);
+            color: var(--primary);
+        }
+
+        .schedule-table td strong {
+            color: var(--accent);
+            font-family: 'Oswald';
+            text-transform: uppercase;
+        }
+
+        /* PLANOS */
+        .pricing {
+            padding: 100px 0;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 80px;
+        }
+
+        .price-item {
+            border-top: 1px solid var(--border);
+            padding-top: 40px;
+            transition: var(--transition);
+        }
+
+        .price-item:hover { border-top-color: var(--accent); }
+
+        .price-item h3 {
+            font-size: 22px;
+            margin-bottom: 12px;
+        }
+
+        .price-item .value {
+            font-size: 44px;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 24px;
+        }
+
+        /* Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1s cubic-bezier(0.2, 1, 0.3, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        footer {
+            padding: 80px 0;
+            border-top: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+            color: var(--muted);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        .footer-logo {
+            height: 80px;
+            width: auto;
+            filter: grayscale(100%) opacity(0.5);
+            transition: var(--transition);
+            object-fit: contain;
+        }
+        .footer-logo:hover {
+            filter: grayscale(0%) opacity(1);
+        }
+
+        @media (max-width: 1024px) {
+            .hero { grid-template-columns: 1fr; text-align: center; padding-top: 160px; }
+            .hero-text { display: flex; flex-direction: column; align-items: center; }
+            .programs-grid { grid-template-columns: 1fr; }
+            .prog-item.large, .prog-item.small, .prog-item.medium { grid-column: span 1; height: 400px; }
+            .programs-grid > .prog-item:last-child:nth-child(3) { grid-column: 1; }
+            .location-section { grid-template-columns: 1fr; text-align: center; }
+            .pricing { grid-template-columns: 1fr; }
+            .hero-image-wrapper { height: 50vh; }
+            .watermark { display: none; }
+        }
+
+        @media (max-width: 680px) {
+            .container { padding-left: 20px; padding-right: 20px; }
+            header { padding: 8px 0; }
+            nav.container { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; }
+            .logo-img { height: 40px; }
+            .nav-links { grid-column: 1 / -1; justify-content: space-between; gap: 0 8px; flex-wrap: wrap; }
+            .nav-links a { font-size: 11px; }
+            .btn-direct { border-radius: 999px; padding: 10px 18px; }
+            .hero { padding-top: 145px; gap: 28px; }
+            .hero-text h1 { font-size: 48px; }
+            .hero-image-wrapper { height: 42vh; min-height: 280px; }
+            .programs, .location-section, .schedule, .pricing { padding-top: 64px; padding-bottom: 64px; }
+            .section-header { display: block; text-align: left; }
+            .section-header > p { margin-top: 16px; }
+            .section-header h2, .location-text h2 { font-size: 40px; }
+            .prog-item.large, .prog-item.small, .prog-item.medium { height: 320px; }
+            .prog-content { left: 24px; right: 24px; bottom: 24px; }
+            .location-section { gap: 32px; }
+            .location-text { overflow-wrap: anywhere; }
+            .map-wrapper { height: 320px; padding: 8px; }
+            .schedule-container { overflow-x: auto; }
+            .schedule-table { min-width: 600px; }
+            .schedule-table th, .schedule-table td { padding: 14px 12px; }
+            .pricing { gap: 36px; }
+            .footer-bottom { padding: 0 20px; flex-direction: column; gap: 12px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            *, *::before, *::after { animation: none !important; transition: none !important; }
+            .reveal { opacity: 1; transform: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+    <header>
+        <nav class="container" aria-label="Navegação principal">
+            <a href="#inicio">
+                <img src="imagens/495787720_18043854548613447_737891614632945578_n.jpg" alt="Power Gym Musculação" class="logo-img">
+            </a>
+            <ul class="nav-links">
+                <li><a href="#inicio">Início</a></li>
+                <li><a href="#modalidades">Modalidades</a></li>
+                <li><a href="#horarios">Horários</a></li>
+                <li><a href="#planos">Planos</a></li>
+            </ul>
+            <a href="https://ig.me/m/academiapowergympg" class="btn-primary btn-direct" aria-label="Enviar mensagem pelo Instagram">Direct</a>
+        </nav>
+    </header>
+
+    <main id="conteudo">
+        <section id="inicio" class="hero container">
+            <div class="hero-text reveal">
+                <div class="google-verify">
+                    <i class="fab fa-google google-icon"></i>
+                    <span class="rating">5.0</span>
+                    <span class="stars">★★★★★</span>
+                    <span class="reviews">21 avaliações</span>
+                </div>
+                
+                <h1>LIBERE SEU <br><span style="color: var(--muted)">POTENCIAL</span></h1>
+                <p>A elite da performance em Uvaranas. Onde a precisão técnica encontra a força bruta para moldar sua melhor versão.</p>
+                <a href="https://ig.me/m/academiapowergympg" class="btn-primary">Começar Agora</a>
+            </div>
+            <div class="hero-image-wrapper reveal">
+                <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop" alt="High Performance">
+            </div>
+        </section>
+
+        <div class="tech-line"></div>
+
+        <section id="modalidades" class="programs container">
+            <div class="watermark" style="top: 10%; left: -5%;">PERFORMANCE</div>
+            
+            <div class="section-header reveal">
+                <div>
+                    <span class="tech-label">Catálogo_Sistemas</span>
+                    <h2>Nossas <span style="color: var(--accent)">Modalidades</span></h2>
+                </div>
+                <p style="color: var(--muted); max-width: 300px; font-size: 15px;">Curadoria de treinos focada em resultados reais e performance sustentável.</p>
+            </div>
+            
+            <div class="programs-grid">
+                <div class="prog-item large reveal">
+                    <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=1470&auto=format&fit=crop" alt="Musculação">
+                    <div class="prog-content">
+                        <h3>Musculação</h3>
+                        <p>Hipertrofia e força bruta com precisão técnica.</p>
+                    </div>
+                </div>
+                <div class="prog-item small reveal">
+                    <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop" alt="Personal">
+                    <div class="prog-content">
+                        <h3>Personal</h3>
+                        <p>Atenção cirúrgica ao seu movimento.</p>
+                    </div>
+                </div>
+                <div class="prog-item medium reveal">
+                    <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1470&auto=format&fit=crop" alt="HIIT">
+                    <div class="prog-content">
+                        <h3>HIIT Performance</h3>
+                        <p>Intensidade máxima, queima eficiente.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO: ONDE FICAMOS? -->
+        <section id="localizacao" class="location-section container">
+            <div class="location-text reveal">
+                <span class="tech-label">Sistemas_Geograficos</span>
+                <h2>ONDE <span style="color: var(--accent)">FICAMOS?</span></h2>
+                <p>Estamos localizados em um ponto estratégico de Uvaranas para facilitar sua rotina de treinos. Venha conhecer nossa infraestrutura de alta performance.</p>
+                <div style="margin-bottom: 30px; font-family: 'Oswald'; font-size: 18px;">
+                    <i class="fas fa-map-marker-alt" style="color: var(--accent); margin-right: 10px;"></i>
+                    Av. Euzébio de Queiróz, 700 - sala 8 - Uvaranas, PG
+                </div>
+                <a href="https://www.google.com/maps/search/?api=1&amp;query=Av.+Euz%C3%A9bio+de+Queir%C3%B3z,+700,+Uvaranas,+Ponta+Grossa" class="btn-primary">Abrir no Maps</a>
+            </div>
+            <div class="map-wrapper reveal">
+                <!-- Mapa corrigido via URL de busca para evitar erro de PB parameter -->
+                <iframe title="Mapa da Power Gym, Avenida Euzébio de Queiróz, 700, Uvaranas" src="https://maps.google.com/maps?q=Av.+Euz%C3%A9bio+de+Queir%C3%B3z,+700,+Uvaranas,+Ponta+Grossa&amp;t=&amp;z=17&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+            </div>
+        </section>
+
+        <section id="horarios" class="schedule container">
+            <div class="section-header reveal" style="justify-content: center; text-align: center;">
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                    <span class="tech-label">Operação_Técnica</span>
+                    <h2>Tabela de <span style="color: var(--accent)">Operação</span></h2>
+                </div>
+            </div>
+            <div class="schedule-container reveal">
+                <table class="schedule-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Período</th>
+                            <th scope="col">Segunda a Sexta</th>
+                            <th scope="col">Sábado</th>
+                            <th scope="col">Domingo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Manhã</th>
+                            <td>06:00 - 12:00</td>
+                            <td>09:00 - 12:00</td>
+                            <td style="color: var(--accent)">FECHADO</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Tarde</th>
+                            <td>12:00 - 18:00</td>
+                            <td>12:00 - 15:00</td>
+                            <td style="color: var(--accent)">FECHADO</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Noite</th>
+                            <td>18:00 - 22:00</td>
+                            <td style="color: var(--accent)">FECHADO</td>
+                            <td style="color: var(--accent)">FECHADO</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="planos" class="pricing container">
+            <div class="price-item reveal">
+                <span class="tech-label">Nível_01</span>
+                <h3>Plano Basic</h3>
+                <span class="value">Mensal</span>
+                <p style="color: var(--muted); margin-bottom: 30px;">Acesso completo à estrutura e treinos base.</p>
+                <a href="https://ig.me/m/academiapowergympg" class="btn-primary" style="background: transparent; color: white; border: 1px solid white;">Contratar</a>
+            </div>
+            <div class="price-item reveal">
+                <span class="tech-label">Nível_02</span>
+                <h3 style="color: var(--accent)">Plano Pro</h3>
+                <span class="value">Trimestral</span>
+                <p style="color: var(--muted); margin-bottom: 30px;">Foco em resultados intermediários e consistência.</p>
+                <a href="https://ig.me/m/academiapowergympg" class="btn-primary">Contratar</a>
+            </div>
+            <div class="price-item reveal">
+                <span class="tech-label">Nível_03</span>
+                <h3>Plano Elite</h3>
+                <span class="value">Anual</span>
+                <p style="color: var(--muted); margin-bottom: 30px;">O ápice da performance. Compromisso total.</p>
+                <a href="https://ig.me/m/academiapowergympg" class="btn-primary" style="background: transparent; color: white; border: 1px solid white;">Contratar</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <img src="imagens/495787720_18043854548613447_737891614632945578_n.jpg" alt="Power Gym Musculação" class="footer-logo" loading="lazy">
+        <div class="footer-bottom">
+            <p>Av. Euzébio de Queiróz, 700 - Uvaranas, PG</p>
+            <p>&copy; 2024 Power Gym</p>
+        </div>
+    </footer>
+
+    <script>
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('active');
+                    }, index * 100); 
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
